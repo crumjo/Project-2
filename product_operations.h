@@ -4,10 +4,9 @@
  @version 01 November 2017
  *****************************************************************/
 
+#ifndef product_operations_h
+#define product_operations_h
+
 #include <stdio.h>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("Hello, World!\n");
-    return 0;
-}
+#endif /* product_operations_h */
