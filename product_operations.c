@@ -14,21 +14,9 @@
 /*****************************************************************
  
  *****************************************************************/
-struct node
+int empty_list(ELEMENT *head)
 {
-    char* s;
-    int d;
-    struct node *next;
-};
-
-typedef struct node ELEMENT;
-
-
-/*****************************************************************
- 
- *****************************************************************/
-int empty_list()
-{
+    head = (ELEMENT*) malloc(sizeof(ELEMENT));
     return 0;
 }
 
@@ -39,7 +27,7 @@ int empty_list()
 int create_product(ELEMENT *head, char* name, char* unit,
                    int price, int quantity)
 {
-    head = (ELEMENT *) malloc(sizeof(ELEMENT));
+    head = (ELEMENT*) malloc(sizeof(ELEMENT));
     head -> s = name;
     
     head -> next = (ELEMENT *) malloc(sizeof(ELEMENT));
