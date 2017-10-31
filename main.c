@@ -35,10 +35,11 @@ int main(int argc, char** argv) {
             printf("Enter the name of the product to delete: ");
             scanf("%s\n", p_name);
             
-            if (search(head, p_name) == 1) {
-                delete_item(&head, p_name);
-            } else {
+            if (search(head, p_name) != 1) {
                 printf("The product '%s' does not exist.", p_name);
+            } else {
+                delete_item(&head, p_name);
+                printf("The product: '%s' has been deleted.", p_name);
             }
         }
         
