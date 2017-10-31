@@ -72,8 +72,8 @@ int main(int argc, char** argv) {
                 printf("Press 1 to initialize an empty list first: ");
                 scanf("%d", &initial);
             }
-            ELEMENT *head = (ELEMENT *) malloc(sizeof(ELEMENT));
-            head -> next = NULL;
+
+            head = (ELEMENT *) malloc(sizeof(ELEMENT));
             printf("Empty list created.\n");
             
         }

@@ -82,17 +82,14 @@ int delete_item(ELEMENT **head, char p_name[15])
  @param head a pointer to the pointer to the head node in the list.
  *****************************************************************/
 void delete_list(ELEMENT **head)
-{
-    struct node *p = *head;
-    struct node *q;
+{    
+    struct node *tmp;
     
-    while (p != NULL) {
-        q = p -> next;
-        free(p);
-        p = q;
+    while ((*head) != NULL) {
+        tmp = (*head);
+        (*head) = (*head) -> next;
+        free(*head);
     }
-    
-    free(p);
 }
 
 
