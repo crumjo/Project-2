@@ -4,10 +4,16 @@
  @version 01 November 2017
  *****************************************************************/
 
-#include <stdio.h>
+#include "product_operations.h"
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("Hello, World!\n");
+int main(int argc, char** argv) {
+    
+    welcome_msg();
+
+    ELEMENT *head = (ELEMENT *) malloc(sizeof(ELEMENT));
+    head -> next = NULL;
+    
+    insert_product(head);
+    
     return 0;
 }
