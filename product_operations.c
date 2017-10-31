@@ -86,14 +86,14 @@ int list_add(ELEMENT *head, struct product prod)
     }
 
     temp -> next = (ELEMENT*) malloc(sizeof(ELEMENT));
-                
+    
     strcpy(temp -> next -> p.name, prod.name);
     strcpy(temp -> next -> p.unit, prod.unit);
     temp -> next -> p.price = prod.price;
     temp -> next -> p.quantity = prod.quantity;
-                
+    
     temp -> next -> next = NULL;
-        
+    
     return 0;
 }
 
@@ -183,10 +183,117 @@ int search(ELEMENT *head, char p_name[15])
  *****************************************************************/
 void print_list(ELEMENT *head)
 {
-    
+    while (head != NULL) {
+        to_string(head -> p);
+        head = head -> next;
+    }
 }
 
 
+/*****************************************************************
+ 
+ *****************************************************************/
+int purchase(ELEMENT *head, char p_name[15])
+{
+    if (search(head, p_name) == 1) {
+        while (head != NULL) {
+            if (strcmp(head -> p.name, p_name) == 0) {
+                head -> p.quantity++;
+                return 1;
+            }
+            head = head -> next;
+        }
+    }
+    return 0;
+}
+
+
+/*****************************************************************
+ 
+ *****************************************************************/
+int sell(ELEMENT **head, char p_name[15])
+{
+    if (search((*head), p_name) == 1) {
+        while ((*head) != NULL) {
+            if (strcmp((*head) -> p.name, p_name) == 0) {
+                (*head) -> p.quantity--;
+                if ((*head) -> p.quantity == 0) {
+                    delete_item(head, p_name);
+                }
+                return 1;
+            }
+            (*head) = (*head) -> next;
+        }
+    }
+    return 0;
+}
+
+
+/*****************************************************************
+ 
+ *****************************************************************/
+int file_string(ELEMENT *head, char* str)
+{
+    while (head != NULL) {
+        char buffer[64];
+        snprintf(buffer, sizeof(buffer), "%s %s %d %d\n",
+             head -> p.name, head -> p.unit,
+             head -> p.price, head -> p.quantity);
+        strcat(str, buffer);
+        head = head -> next;
+    }
+    return 0;
+}
+
+
+/*****************************************************************
+ Write the contents of the buffer into a new or existing file.
+ 
+ @param filename the name of the output file to write to.
+ @param buffer the char array from which to write.
+ @param size the number of elements to write to the output file.
+ @return int 0 if the code executed correctly, 1 otherwise.
+ *****************************************************************/
+int write_file( char* filename, char *buffer, int size )
+{
+    
+    if ( access( filename, F_OK) != -1 ) {
+        
+        /** Capture user input for choice to overwrite a file. */
+        char x;
+        printf("'%s' already exists, would you like to replace it?"
+               " (y or n)\n", filename);
+        scanf("%c", &x);
+        
+        while ( x != 'n' && x != 'N' && x != 'y' && x != 'Y') {
+            printf("Invalid input, enter y or n.\n");
+            scanf(" %c", &x);
+        }
+        
+        if (x == 'n' || x == 'N') {
+            printf("\nNo changes to '%s' were made."
+                   "\n\n", filename);
+            return -1;
+            
+        } else if (x == 'y' || x == 'Y') {
+            printf("'%s' has been overwritten.\n", filename);
+        }
+        
+    }
+    
+    /** Create an output file in write mode. */
+    FILE *out_file = fopen(filename, "w");
+    if (out_file == NULL) {
+        fprintf(stderr, "File open failed.");
+        return -1;
+    }
+    
+    buffer[size] = '\0';
+    fwrite(buffer, sizeof(char), size, out_file);
+    fclose(out_file);
+    
+    return 0;
+}
 
 
 

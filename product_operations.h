@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
 
 #endif /* product_operations_h */
 
@@ -41,3 +43,7 @@ int delete_item(ELEMENT **head, char p_name[15]);
 void delete_list(ELEMENT **head);
 int search(ELEMENT *head, char p_name[15]);
 void print_list(ELEMENT *head);
+int purchase(ELEMENT *head, char p_name[15]);
+int sell(ELEMENT **head, char p_name[15]);
+int file_string(ELEMENT *head, char* str);
+int write_file( char* filename, char *buffer, int size );
