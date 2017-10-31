@@ -119,9 +119,28 @@ int delete_item(ELEMENT **head, char p_name[15])
 {
     struct node *p = *head;
     struct node *q;
+
     
-    //Node is head of list.
+    //Node is only element in list.
+    if (strcmp((*head) -> p.name, p_name) == 0 &&
+        (*head) -> next == NULL) {
+        
+        printf("\nDELETE HEAD ONLY ELEMENT\n\n");
+        
+        //Allocate a new empty head.
+        (*head) -> next = (ELEMENT*) malloc(sizeof(ELEMENT));
+//        (*head) -> next -> next = NULL;
+        (*head) = (*head) -> next;
+        (*head) -> next = NULL;
+        free(p);
+        return 1;
+    }
+    
+    //Node is head of list non-empty list.
     if ( strcmp((*head) -> p.name, p_name) == 0 ) {
+        
+        printf("\nDELETE HEAD\n\n");
+        
         *head = (*head) -> next;
         free(p);
         return 1;
@@ -209,20 +228,24 @@ int purchase(ELEMENT *head, char p_name[15])
 
 
 /*****************************************************************
- 
+
  *****************************************************************/
 int sell(ELEMENT **head, char p_name[15])
 {
+    struct node *tmp = *head;
+    
     if (search((*head), p_name) == 1) {
-        while ((*head) != NULL) {
-            if (strcmp((*head) -> p.name, p_name) == 0) {
-                (*head) -> p.quantity--;
-                if ((*head) -> p.quantity == 0) {
+        while (tmp != NULL) {
+            if (strcmp(tmp -> p.name, p_name) == 0) {
+                
+                tmp -> p.quantity--;
+                if (tmp -> p.quantity == 0) {
                     delete_item(head, p_name);
                 }
+                
                 return 1;
             }
-            (*head) = (*head) -> next;
+            tmp = tmp -> next;
         }
     }
     return 0;
@@ -255,32 +278,7 @@ int file_string(ELEMENT *head, char* str)
  @return int 0 if the code executed correctly, 1 otherwise.
  *****************************************************************/
 int write_file( char* filename, char *buffer, int size )
-{
-    
-    if ( access( filename, F_OK) != -1 ) {
-        
-        /** Capture user input for choice to overwrite a file. */
-        char x;
-        printf("'%s' already exists, would you like to replace it?"
-               " (y or n)\n", filename);
-        scanf("%c", &x);
-        
-        while ( x != 'n' && x != 'N' && x != 'y' && x != 'Y') {
-            printf("Invalid input, enter y or n.\n");
-            scanf(" %c", &x);
-        }
-        
-        if (x == 'n' || x == 'N') {
-            printf("\nNo changes to '%s' were made."
-                   "\n\n", filename);
-            return -1;
-            
-        } else if (x == 'y' || x == 'Y') {
-            printf("'%s' has been overwritten.\n", filename);
-        }
-        
-    }
-    
+{    
     /** Create an output file in write mode. */
     FILE *out_file = fopen(filename, "w");
     if (out_file == NULL) {

@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     int initial = 0;
     scanf("%d", &initial);
     while (initial != 1) {
-        printf("Enter a 1 to initialize an empty list first.\n");
+        printf("Press 1 to initialize an empty list first: ");
         scanf("%d", &initial);
     }
     ELEMENT *head = (ELEMENT *) malloc(sizeof(ELEMENT));
@@ -21,7 +21,6 @@ int main(int argc, char** argv) {
     printf("Empty list created.\n");
     
     int com = -1;
-    scanf("%d", &com);
     while (com != 0) {
         scanf("%d", &com);
         
@@ -33,23 +32,86 @@ int main(int argc, char** argv) {
         if (com == 3) {
             char p_name[15];
             printf("Enter the name of the product to delete: ");
-            scanf("%s\n", p_name);
+            scanf("%s", p_name);
             
             if (search(head, p_name) != 1) {
-                printf("The product '%s' does not exist.", p_name);
+                printf("The product '%s' does not exist.\n", p_name);
             } else {
                 delete_item(&head, p_name);
-                printf("The product: '%s' has been deleted.", p_name);
+                printf("The product: '%s' has been deleted.\n", p_name);
             }
+        
         }
         
         if (com == 4) {
             delete_list(&head);
-            printf("List deleted.");
+            printf("List deleted. Press 1 to create a new list.\n");
+            
+            int initial = 0;
+            scanf("%d", &initial);
+            while (initial != 1) {
+                printf("Press 1 to initialize an empty list first: ");
+                scanf("%d", &initial);
+            }
+            ELEMENT *head = (ELEMENT *) malloc(sizeof(ELEMENT));
+            head -> next = NULL;
+            printf("Empty list created.\n");
+            
+        }
+        
+        if (com == 5) {
+            char p_name[15];
+            printf("Enter the name of the product to search for: ");
+            scanf("%s", p_name);
+            
+            if (search(head, p_name) != 1) {
+                printf("The product '%s' could not be found in the list.\n", p_name);
+            } else {
+                printf("The product '%s' was found in the list.\n", p_name);
+            }
         }
         
         if (com == 6) {
-            print_list(head);
+            if (strcmp(head -> p.name, "") == 0 &&
+                strcmp(head -> p.unit, "") == 0) {
+                printf("The list is empty.\n");
+            } else {
+                print_list(head);
+            }
+        }
+        
+        if (com == 7) {
+            char p_name[15];
+            printf("Enter the name of the product to purchase: ");
+            scanf("%s", p_name);
+            
+            if (search(head, p_name) != 1) {
+                printf("The product '%s' could not be found in the list.\n", p_name);
+            } else {
+                purchase(head, p_name);
+                printf("The product '%s' has been purchased.\n", p_name);
+            }
+        }
+        
+        if (com == 8) {
+            char p_name[15];
+            printf("Enter the name of the product to sell: ");
+            scanf("%s", p_name);
+            
+            if (search(head, p_name) != 1) {
+                printf("The product '%s' could not be found in the list.\n", p_name);
+            } else {
+                sell(&head, p_name);
+                printf("The product '%s' has been sold.\n", p_name);
+            }
+        }
+        
+        if (com == 9) {
+            int size = 1024 * sizeof(char);
+            char* str = (char*) malloc(size);
+            file_string(head, str);
+            write_file("out.txt", str, size);
+            printf("List has been saved to file 'out.txt'.\n");
         }
         
     }
