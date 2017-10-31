@@ -1,15 +1,22 @@
 /*****************************************************************
+ Contains the operations that can be performed on a
+ linked list of products.
  
  @author Joshua Crum
  @version 01 November 2017
  *****************************************************************/
- 
 #include "product_operations.h"
 
 
-
 /*****************************************************************
+ Creates a product that has a name, a unit of measurement, a price
+ and a quantity.
  
+ @param name the name of the product.
+ @param unit the unit of measurement of the product.
+ @param price the int price of the product.
+ @param quantity the int quantity of the product.
+ @return struct product the product that was created.
  *****************************************************************/
 struct product create_product(char name[], char unit[],
                    int price, int quantity)
@@ -25,95 +32,11 @@ struct product create_product(char name[], char unit[],
 
 
 /*****************************************************************
+ Deletes a product from the linked list based on its name.
  
- *****************************************************************/
-int to_string(struct product p)
-{
-    printf("Name: %s\t Unit: %s\t Price: $%d\t Quantity: %d\t\n",
-           p.name, p.unit, p.price, p.quantity);
-    return 0;
-}
-
-
-/*****************************************************************
- 
- *****************************************************************/
-void insert_product(ELEMENT *head)
-{
-    char name[15];
-    char unit[10];
-    int price, quantity;
-    
-    printf("Enter a name for the product: ");
-    scanf("%s", name);
-    
-    printf("Enter a unit of measurement for '%s': ", name);
-    scanf("%s", unit);
-    
-    printf("Enter the price of '%s': ", name);
-    scanf("%d", &price);
-    
-    printf("Enter the quantity of '%s': ", name);
-    scanf("%d", &quantity);
-    
-    struct product temp = create_product(name, unit,
-                                           price, quantity);
-    list_add(head, temp);
-}
-
-
-/*****************************************************************
- 
- *****************************************************************/
-int list_add(ELEMENT *head, struct product prod)
-{
-
-    if (strcmp(head -> p.name, "") == 0 &&
-        head -> next == NULL) {
-        
-        strcpy(head -> p.name, prod.name);
-        strcpy(head -> p.unit, prod.unit);
-        head -> p.price = prod.price;
-        head -> p.quantity = prod.quantity;
-        
-        return 1;
-    }
-    
-    struct node *temp = head;
-    
-    while (temp -> next != NULL) {
-        temp = temp -> next;
-    }
-
-    temp -> next = (ELEMENT*) malloc(sizeof(ELEMENT));
-    
-    strcpy(temp -> next -> p.name, prod.name);
-    strcpy(temp -> next -> p.unit, prod.unit);
-    temp -> next -> p.price = prod.price;
-    temp -> next -> p.quantity = prod.quantity;
-    
-    temp -> next -> next = NULL;
-    
-    return 0;
-}
-
-
-/*****************************************************************
- 
- *****************************************************************/
-void welcome_msg()
-{
-    printf("1: Create an empty list \t 2: Insert a product\n"
-           "3: Delete a product \t\t 4: Delete the entire list\n"
-           "5: Search a product \t\t 6: Display products in the "
-           "list\n"
-           "7: Purchase a product \t\t 8: Sell a product\n"
-           "9: Save to file \t\t 0: Exit\n\n");
-}
-
-
-/*****************************************************************
- 
+ @param head a pointer to the pointer to the head node in the list.
+ @param p_name the name of the product to be deleted.
+ @return int 1 if delete was successful, 0 if otherwise.
  *****************************************************************/
 int delete_item(ELEMENT **head, char p_name[15])
 {
@@ -154,7 +77,9 @@ int delete_item(ELEMENT **head, char p_name[15])
 
 
 /*****************************************************************
+ Deletes the entire list.
  
+ @param head a pointer to the pointer to the head node in the list.
  *****************************************************************/
 void delete_list(ELEMENT **head)
 {
@@ -172,23 +97,100 @@ void delete_list(ELEMENT **head)
 
 
 /*****************************************************************
+ Puts all products into a single string to be passed to
+ write_file.
  
+ @param head a pointer to the head node in the linked list.
+ @param str an empty allocated string to store the products in.
+ @return 0 after the string has been created.
  *****************************************************************/
-int search(ELEMENT *head, char p_name[15])
+int file_string(ELEMENT *head, char* str)
 {
     while (head != NULL) {
-        if (strcmp(head -> p.name, p_name) == 0) {
-            return 1;
-        }
+        char buffer[64];
+        snprintf(buffer, sizeof(buffer), "%s %s %d %d\n",
+                 head -> p.name, head -> p.unit,
+                 head -> p.price, head -> p.quantity);
+        strcat(str, buffer);
         head = head -> next;
     }
+    return 0;
+}
+
+
+/*****************************************************************
+ Gathers user input to create a product to pass to list_add.
+ 
+ @param head a pointer to the head node in the linked list.
+ *****************************************************************/
+void insert_product(ELEMENT *head)
+{
+    char name[15];
+    char unit[10];
+    int price, quantity;
+    
+    printf("Enter a name for the product: ");
+    scanf("%s", name);
+    
+    printf("Enter a unit of measurement for '%s': ", name);
+    scanf("%s", unit);
+    
+    printf("Enter the price of '%s': ", name);
+    scanf("%d", &price);
+    
+    printf("Enter the quantity of '%s': ", name);
+    scanf("%d", &quantity);
+    
+    struct product temp = create_product(name, unit,
+                                         price, quantity);
+    list_add(head, temp);
+}
+
+
+/*****************************************************************
+ Adds a created product into the linked list.
+ 
+ @param head a pointer to the head node in the linked list.
+ @param prod the product to be added to the linked list.
+ @return int 1 if product was added successfully, 0 otherwise.
+ *****************************************************************/
+int list_add(ELEMENT *head, struct product prod)
+{
+    
+    if (strcmp(head -> p.name, "") == 0 &&
+        head -> next == NULL) {
+        
+        strcpy(head -> p.name, prod.name);
+        strcpy(head -> p.unit, prod.unit);
+        head -> p.price = prod.price;
+        head -> p.quantity = prod.quantity;
+        
+        return 1;
+    }
+    
+    struct node *temp = head;
+    
+    while (temp -> next != NULL) {
+        temp = temp -> next;
+    }
+    
+    temp -> next = (ELEMENT*) malloc(sizeof(ELEMENT));
+    
+    strcpy(temp -> next -> p.name, prod.name);
+    strcpy(temp -> next -> p.unit, prod.unit);
+    temp -> next -> p.price = prod.price;
+    temp -> next -> p.quantity = prod.quantity;
+    
+    temp -> next -> next = NULL;
     
     return 0;
 }
 
 
 /*****************************************************************
+ Prints all products in the list.
  
+ @param head a pointer to the head node in the linked list.
  *****************************************************************/
 void print_list(ELEMENT *head)
 {
@@ -200,7 +202,12 @@ void print_list(ELEMENT *head)
 
 
 /*****************************************************************
+ Purchases a product by increasing the quantity if the product
+ exists.
  
+ @@param head a pointer to the head node in the linked list.
+ @param p_name the name of the product to purchase.
+ @return int 1 if purchase was successful, 0 if not.
  *****************************************************************/
 int purchase(ELEMENT *head, char p_name[15])
 {
@@ -218,7 +225,10 @@ int purchase(ELEMENT *head, char p_name[15])
 
 
 /*****************************************************************
-
+ Sells a product by decreasing the quantity if the product exists.
+ 
+ @param head a pointer to the head node in the linked list.
+ f@param p_name the name of the product to sell.
  *****************************************************************/
 int sell(ELEMENT **head, char p_name[15])
 {
@@ -251,19 +261,34 @@ int sell(ELEMENT **head, char p_name[15])
 
 
 /*****************************************************************
+ Search for a product in the list by name.
  
+ @param head a pointer to the head node in the linked list.
+ @param p_name the name of the product to search for.
+ @return 1 if the product was found, 0 if not.
  *****************************************************************/
-int file_string(ELEMENT *head, char* str)
+int search(ELEMENT *head, char p_name[15])
 {
     while (head != NULL) {
-        char buffer[64];
-        snprintf(buffer, sizeof(buffer), "%s %s %d %d\n",
-             head -> p.name, head -> p.unit,
-             head -> p.price, head -> p.quantity);
-        strcat(str, buffer);
+        if (strcmp(head -> p.name, p_name) == 0) {
+            return 1;
+        }
         head = head -> next;
     }
+    
     return 0;
+}
+
+
+/*****************************************************************
+ Prints out the contents of a product struct.
+ 
+ @param p the product to print out.
+ *****************************************************************/
+void to_string(struct product p)
+{
+    printf("Name: %s\t Unit: %s\t Price: $%d\t Quantity: %d\t\n",
+           p.name, p.unit, p.price, p.quantity);
 }
 
 
@@ -292,4 +317,16 @@ int write_file( char* filename, char *buffer, int size )
 }
 
 
-
+/*****************************************************************
+ Prints out the welcome message with a list of possible commands
+ to enter.
+ *****************************************************************/
+void welcome_msg()
+{
+    printf("1: Create an empty list \t 2: Insert a product\n"
+           "3: Delete a product \t\t 4: Delete the entire list\n"
+           "5: Search a product \t\t 6: Display products in the "
+           "list\n"
+           "7: Purchase a product \t\t 8: Sell a product\n"
+           "9: Save to file \t\t 0: Exit\n\n");
+}
