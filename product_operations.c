@@ -121,25 +121,15 @@ int delete_item(ELEMENT **head, char p_name[15])
     struct node *q;
 
     
-    //Node is only element in list.
-    if (strcmp((*head) -> p.name, p_name) == 0 &&
-        (*head) -> next == NULL) {
-        
-        printf("\nDELETE HEAD ONLY ELEMENT\n\n");
-        
-        //Allocate a new empty head.
-        (*head) -> next = (ELEMENT*) malloc(sizeof(ELEMENT));
-//        (*head) -> next -> next = NULL;
-        (*head) = (*head) -> next;
-        (*head) -> next = NULL;
-        free(p);
-        return 1;
-    }
+    //Node is head of list.
+    if (strcmp((*head) -> p.name, p_name) == 0) {
     
-    //Node is head of list non-empty list.
-    if ( strcmp((*head) -> p.name, p_name) == 0 ) {
-        
-        printf("\nDELETE HEAD\n\n");
+        //Head is only element.
+        if ((*head) -> next == NULL) {
+            printf("'%s' is the only element in the list, it "
+                   "cannot be deleted.\n", p_name);
+            return 0;
+        }
         
         *head = (*head) -> next;
         free(p);
@@ -177,7 +167,7 @@ void delete_list(ELEMENT **head)
         p = q;
     }
     
-    *head = NULL;
+    free(p);
 }
 
 
@@ -237,6 +227,14 @@ int sell(ELEMENT **head, char p_name[15])
     if (search((*head), p_name) == 1) {
         while (tmp != NULL) {
             if (strcmp(tmp -> p.name, p_name) == 0) {
+                
+                if (tmp == (*head) && tmp -> next == NULL &&
+                    tmp -> p.quantity == 1) {
+                    printf("'%s' is the only item in the list "
+                           "so its quantity cannot be 0.\n",
+                           tmp -> p.name);
+                    return 0;
+                }
                 
                 tmp -> p.quantity--;
                 if (tmp -> p.quantity == 0) {

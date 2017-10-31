@@ -37,8 +37,12 @@ int main(int argc, char** argv) {
             if (search(head, p_name) != 1) {
                 printf("The product '%s' does not exist.\n", p_name);
             } else {
-                delete_item(&head, p_name);
-                printf("The product: '%s' has been deleted.\n", p_name);
+                int i = delete_item(&head, p_name);
+                
+                if (i != 0) {
+                    printf("The product: '%s' has been deleted.\n", p_name);
+                }
+                
             }
         
         }
@@ -101,8 +105,12 @@ int main(int argc, char** argv) {
             if (search(head, p_name) != 1) {
                 printf("The product '%s' could not be found in the list.\n", p_name);
             } else {
-                sell(&head, p_name);
-                printf("The product '%s' has been sold.\n", p_name);
+                
+                int x = sell(&head, p_name);
+                
+                if (x != 0) {
+                    printf("The product '%s' has been sold.\n", p_name);
+                }
             }
         }
         
