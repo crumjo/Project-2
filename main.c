@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
         
         //Delete the entire list.
         if (com == 4) {
-            delete_list(&head);
+            delete_list(head);
             printf("List deleted. Press 1 to create a new list.\n");
             
             int initial = 0;
@@ -151,7 +151,7 @@ int main(int argc, char** argv) {
     }
     
     //Delete the list and exit when 0 is pressed.
-    delete_list(&head);
+    delete_list(head);
     exit(0);
     
     return 0;

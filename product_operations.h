@@ -69,7 +69,7 @@ int delete_item(ELEMENT **head, char p_name[15]);
  
  @param head a pointer to the pointer to the head node in the list.
  *****************************************************************/
-void delete_list(ELEMENT **head);
+void delete_list(ELEMENT *head);
 
 
 /*****************************************************************
