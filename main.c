@@ -113,6 +113,7 @@ int main(int argc, char** argv) {
             }
 
             head = (ELEMENT *) malloc(sizeof(ELEMENT));
+            head -> next = NULL;
             printf("Empty list created.\n");
             
         }
@@ -134,8 +135,7 @@ int main(int argc, char** argv) {
         
         //Print the contents of the list.
         if (com == 6) {
-            if (strcmp(head -> p.name, "") == 0 &&
-                strcmp(head -> p.unit, "") == 0) {
+            if ((head -> p.quantity <= 0) && (head -> next == NULL)) {
                 printf("The list is empty.\n");
             } else {
                 print_list(head);
