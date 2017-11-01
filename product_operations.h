@@ -84,14 +84,6 @@ int file_string(ELEMENT *head, char* str);
 
 
 /*****************************************************************
- Gathers user input to create a product to pass to list_add.
- 
- @param head a pointer to the head node in the linked list.
- *****************************************************************/
-void insert_product(ELEMENT *head);
-
-
-/*****************************************************************
  Adds a created product into the linked list.
  
  @param head a pointer to the head node in the linked list.

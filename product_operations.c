@@ -116,35 +116,6 @@ int file_string(ELEMENT *head, char* str)
 
 
 /*****************************************************************
- Gathers user input to create a product to pass to list_add.
- 
- @param head a pointer to the head node in the linked list.
- *****************************************************************/
-void insert_product(ELEMENT *head)
-{
-    char name[15];
-    char unit[10];
-    int price, quantity;
-    
-    printf("Enter a name for the product: ");
-    scanf("%s", name);
-    
-    printf("Enter a unit of measurement for '%s': ", name);
-    scanf("%s", unit);
-    
-    printf("Enter the price of '%s': ", name);
-    scanf("%d", &price);
-    
-    printf("Enter the quantity of '%s': ", name);
-    scanf("%d", &quantity);
-    
-    struct product temp = create_product(name, unit,
-                                         price, quantity);
-    list_add(head, temp);
-}
-
-
-/*****************************************************************
  Adds a created product into the linked list.
  
  @param head a pointer to the head node in the linked list.

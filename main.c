@@ -34,8 +34,47 @@ int main(int argc, char** argv) {
         
         //Add a new product to list.
         if (com == 2) {
-            insert_product(head);
-            printf("Product added to list.\n");
+            
+            char name[15];
+            char unit[10];
+            int price, quantity;
+            
+            printf("Enter a name for the product: ");
+            scanf("%s", name);
+            
+            //Check if product exists.
+            if (search(head, name) == 1) {
+                printf("Product '%s' already exists.\n", name);
+                
+            } else {
+                
+                printf("Enter a unit of measurement for '%s': ", name);
+                scanf("%s", unit);
+            
+                printf("Enter the price of '%s': ", name);
+                scanf("%d", &price);
+                
+                while (price < 0) {
+                    printf("Price cannot be negative. Enter "
+                           "a non-negative price:\n");
+                    scanf("%d", &price);
+                }
+            
+                printf("Enter the quantity of '%s': ", name);
+                scanf("%d", &quantity);
+                
+                while (quantity < 1) {
+                    printf("Quantity cannot be zero or less. "
+                           "Enter a quantity greater than zero:\n");
+                    scanf("%d", &quantity);
+                }
+            
+                struct product temp = create_product(name, unit,
+                                                 price, quantity);
+                list_add(head, temp);
+            
+                printf("Product added to list.\n");
+            }
         }
         
         //Delete a product from the list.
